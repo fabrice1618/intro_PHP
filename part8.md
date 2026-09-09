@@ -94,6 +94,93 @@ foreach ($notes as $cle => $valeur) {
 ```
 
 
+## Ce qu’est vraiment un « tableau » PHP
+
+En PHP, `array` est en réalité une **carte ordonnée** (*ordered map*) : une structure qui associe des clés à des valeurs **tout en conservant l’ordre d’insertion**. Elle sert donc à la fois de liste, de dictionnaire, de pile et de file.
+
+- Les clés sont des `int` ou des `string`. `"1"` devient `1`, `true` devient `1`, `null` devient `""`, `1.9` devient `1`.
+- Ajouter avec `$t[] = ...` utilise le plus grand indice entier utilisé + 1 (même si des éléments ont été supprimés entre-temps).
+
+```php
+$t = [5 => 'a'];
+$t[] = 'b';        // indice 6
+unset($t[6]);
+$t[] = 'c';        // indice 7, pas 6
+```
+
+## Vérifier une clé ou une valeur
+
+```php
+isset($t['cle'])              // true si la clé existe ET n’est pas null
+array_key_exists('cle', $t)   // true même si la valeur est null
+in_array('x', $t, true)       // 3e argument true = comparaison stricte (===), recommandé
+array_search('x', $t, true)   // renvoie la clé, ou false si absent
+$valeur = $t['cle'] ?? 'défaut';  // accès sûr sans avertissement
+```
+
+## Parcourir et transformer : `map`, `filter`, `reduce`
+
+```php
+$nombres = [1, 2, 3, 4, 5];
+
+$carres  = array_map(fn($n) => $n ** 2, $nombres);       // [1, 4, 9, 16, 25]
+$pairs   = array_filter($nombres, fn($n) => $n % 2 === 0); // [1 => 2, 3 => 4] (clés conservées !)
+$total   = array_reduce($nombres, fn($acc, $n) => $acc + $n, 0); // 15
+
+$pairs = array_values($pairs); // réindexer si besoin
+
+// PHP 8.4 : trouver / tester
+$premierGrand = array_find($nombres, fn($n) => $n > 3);   // 4
+$tousPositifs = array_all($nombres, fn($n) => $n > 0);    // true
+$ilYAPair     = array_any($nombres, fn($n) => $n % 2 === 0); // true
+```
+
+## Trier
+
+| Fonction | Trie selon | Conserve les clés |
+|----------|-----------|-------------------|
+| `sort` / `rsort` | valeurs | non (réindexe) |
+| `asort` / `arsort` | valeurs | oui |
+| `ksort` / `krsort` | clés | oui |
+| `usort` | valeurs, callback | non |
+| `uasort` | valeurs, callback | oui |
+| `uksort` | clés, callback | oui |
+
+```php
+usort($produits, fn($a, $b) => $a['prix'] <=> $b['prix']);        // par prix croissant
+usort($produits, fn($a, $b) => $b['note'] <=> $a['note']);        // par note décroissante
+```
+
+Attention : ces fonctions modifient le tableau **en place** et renvoient `true`/`false`, pas le tableau trié.
+
+## Fonctions très utiles
+
+```php
+array_keys($t); array_values($t);
+array_column($clients, 'nom');              // extrait une colonne
+array_column($clients, 'nom', 'id');        // indexée par 'id'
+array_combine(['a', 'b'], [1, 2]);          // ['a' => 1, 'b' => 2]
+array_slice($t, 1, 3);                      // sous-tableau (sans modifier l’original)
+array_splice($t, 1, 2, ['x']);             // remplace en place
+array_unique($t); array_flip($t); array_reverse($t);
+array_sum($t); array_product($t);
+range(1, 10); range('a', 'e');
+array_fill(0, 3, null);                     // [null, null, null]
+implode(', ', $t); explode(',', $chaine);
+count($t); count($t, COUNT_RECURSIVE);
+```
+
+## Décomposition (*spread*) et déstructuration
+
+```php
+$a = [1, 2];
+$b = [0, ...$a, 3];          // [0, 1, 2, 3]
+$fusion = [...$defauts, ...$options]; // les clés string de droite écrasent celles de gauche (PHP 8.1)
+
+[$x, $y] = [10, 20];         // $x = 10, $y = 20
+['nom' => $nom] = $personne; // déstructuration associative
+```
+
 ## Bonnes pratiques
 
 - **Typage** : PHP est faiblement typé, mais il est possible de typer les paramètres de fonctions pour renforcer la sécurité du code (cf. section 7. Fonctions).
@@ -107,3 +194,6 @@ foreach ($notes as $cle => $valeur) {
 - [Tableaux en PHP (documentation officielle)](https://www.php.net/manual/fr/language.types.array.php)
 - [Fonctions sur les tableaux (documentation officielle)](https://www.php.net/manual/en/ref.array.php)
 - [Tutoriel sur les tableaux (Apprendre-PHP.com)](https://www.apprendre-php.com/tutoriels/tutoriel-7-les-tableaux-ou-arrays.html)
+- [Tri des tableaux (documentation officielle)](https://www.php.net/manual/fr/array.sorting.php)
+- [`array_map`](https://www.php.net/manual/fr/function.array-map.php) · [`array_filter`](https://www.php.net/manual/fr/function.array-filter.php) · [`array_reduce`](https://www.php.net/manual/fr/function.array-reduce.php)
+- [Nouvelles fonctions PHP 8.4 : `array_find`, `array_any`, `array_all`](https://www.php.net/releases/8.4/fr.php)

@@ -312,6 +312,138 @@ Ce test évalue vos connaissances sur les bases indispensables de PHP couvertes 
 
 ---
 
+## Section 15 : Dates et heures
+
+**Question 43** - Quelle classe est recommandée pour manipuler les dates sans risque d'effet de bord ?
+- [ ] A. `DateTime`
+- [ ] B. `DateTimeImmutable`
+- [ ] C. `Calendar`
+- [ ] D. `Timestamp`
+
+**Question 44** - Que renvoie `time()` ?
+- [ ] A. La date au format `Y-m-d`
+- [ ] B. Le nombre de secondes écoulées depuis le 1er janvier 1970 UTC
+- [ ] C. L'heure locale sous forme de chaîne
+- [ ] D. Un objet `DateTime`
+
+**Question 45** - Comment ajouter proprement un jour à une date ?
+- [ ] A. `$date + 86400`
+- [ ] B. `$date->add(new DateInterval('P1D'))`
+- [ ] C. `$date->plusDay()`
+- [ ] D. `date_add_day($date)`
+
+---
+
+## Section 16 : Sessions et cookies
+
+**Question 46** - Où sont stockées les données d'une session PHP ?
+- [ ] A. Dans le navigateur du client
+- [ ] B. Côté serveur, le client ne reçoit qu'un identifiant
+- [ ] C. Dans l'URL
+- [ ] D. Dans la base de données obligatoirement
+
+**Question 47** - Quelle fonction appeler juste après une connexion réussie pour prévenir la fixation de session ?
+- [ ] A. `session_destroy()`
+- [ ] B. `session_regenerate_id(true)`
+- [ ] C. `session_reset()`
+- [ ] D. `session_abort()`
+
+**Question 48** - Quel attribut de cookie empêche son accès par JavaScript ?
+- [ ] A. `secure`
+- [ ] B. `samesite`
+- [ ] C. `httponly`
+- [ ] D. `path`
+
+---
+
+## Section 17 : Namespaces et autoloading
+
+**Question 49** - À quoi sert un espace de noms (`namespace`) ?
+- [ ] A. À accélérer l'exécution
+- [ ] B. À éviter les collisions entre classes de même nom
+- [ ] C. À chiffrer le code
+- [ ] D. À définir des constantes
+
+**Question 50** - Quel outil génère l'autoloader d'un projet PHP moderne ?
+- [ ] A. npm
+- [ ] B. Composer
+- [ ] C. PEAR
+- [ ] D. Make
+
+**Question 51** - Avec la norme PSR-4 et le préfixe `App\` → `src/`, où se trouve la classe `App\Model\Utilisateur` ?
+- [ ] A. `App/Model/Utilisateur.php`
+- [ ] B. `src/Model/Utilisateur.php`
+- [ ] C. `src/App/Model/Utilisateur.php`
+- [ ] D. `model/utilisateur.php`
+
+---
+
+## Section 18 : JSON et API
+
+**Question 52** - Quelle fonction convertit un tableau PHP en chaîne JSON ?
+- [ ] A. `json_parse()`
+- [ ] B. `json_encode()`
+- [ ] C. `to_json()`
+- [ ] D. `serialize()`
+
+**Question 53** - Comment obtenir un tableau associatif (et non un `stdClass`) avec `json_decode()` ?
+- [ ] A. `json_decode($s)`
+- [ ] B. `json_decode($s, true)`
+- [ ] C. `json_decode($s, ASSOC)`
+- [ ] D. `json_decode_array($s)`
+
+**Question 54** - Quel code de statut HTTP indique la création réussie d'une ressource ?
+- [ ] A. 200
+- [ ] B. 201
+- [ ] C. 204
+- [ ] D. 404
+
+**Question 55** - Comment lire un corps de requête au format JSON (Content-Type: application/json) ?
+- [ ] A. Via `$_POST`
+- [ ] B. Via `$_JSON`
+- [ ] C. Via `file_get_contents('php://input')`
+- [ ] D. Via `$_GET`
+
+---
+
+## Section 19 : Expressions régulières
+
+**Question 56** - Quelle fonction teste si une chaîne correspond à un motif ?
+- [ ] A. `preg_test()`
+- [ ] B. `preg_match()`
+- [ ] C. `regex_match()`
+- [ ] D. `str_match()`
+
+**Question 57** - Que signifie le quantificateur `+` dans une regex ?
+- [ ] A. 0 ou 1 occurrence
+- [ ] B. 0 ou plus
+- [ ] C. 1 ou plus
+- [ ] D. Exactement 1
+
+**Question 58** - Quelle option de motif active le mode UTF-8 (indispensable avec des accents) ?
+- [ ] A. `i`
+- [ ] B. `m`
+- [ ] C. `s`
+- [ ] D. `u`
+
+---
+
+## Section 20 : Tests automatisés
+
+**Question 59** - Quel est l'outil standard de tests unitaires en PHP ?
+- [ ] A. Jest
+- [ ] B. PHPUnit
+- [ ] C. Mocha
+- [ ] D. PHPTest
+
+**Question 60** - Quelle assertion vérifie l'égalité stricte (valeur ET type) ?
+- [ ] A. `assertEquals()`
+- [ ] B. `assertSame()`
+- [ ] C. `assertTrue()`
+- [ ] D. `assertMatch()`
+
+---
+
 ## Corrigé
 
 <details>
@@ -359,5 +491,23 @@ Ce test évalue vos connaissances sur les bases indispensables de PHP couvertes 
 40. **C** - Valider des deux côtés
 41. **C** - `filter_var()` avec le filtre approprié
 42. **C** - SQL Injection
+43. **B** - `DateTimeImmutable` (ses méthodes renvoient un nouvel objet)
+44. **B** - Horodatage Unix en secondes depuis le 1er janvier 1970 UTC
+45. **B** - `$date->add(new DateInterval('P1D'))` (l'ajout de 86400 s est faux les jours de changement d'heure)
+46. **B** - Côté serveur ; le client ne transporte que l'identifiant de session
+47. **B** - `session_regenerate_id(true)`
+48. **C** - `httponly`
+49. **B** - Éviter les collisions entre classes de même nom
+50. **B** - Composer
+51. **B** - `src/Model/Utilisateur.php`
+52. **B** - `json_encode()`
+53. **B** - `json_decode($s, true)`
+54. **B** - 201 Created
+55. **C** - `file_get_contents('php://input')`
+56. **B** - `preg_match()`
+57. **C** - 1 ou plus
+58. **D** - `u` (mode UTF-8)
+59. **B** - PHPUnit
+60. **B** - `assertSame()`
 
 </details>

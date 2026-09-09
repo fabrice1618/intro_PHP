@@ -8,13 +8,14 @@ This is a **PHP educational repository** containing French-language tutorial doc
 
 ## Repository Structure
 
-- **Root directory**: Contains 15 numbered tutorial parts (`part1.md` to `part15.md`) and a table of contents (`sommaire.md`)
-- **No code files**: This is a documentation-only repository with no PHP code implementation files
+- **Root directory**: Contains 21 numbered tutorial parts (`part1.md` to `part21.md`), a table of contents (`readme.md`) and a self-assessment quiz (`test.md`)
+- **`exercices/`**: Standalone `.php` exercise files with an explanatory `readme.md`
 - **Language**: All documentation is written in French
+- **Target version**: PHP 8.4 (version-specific features are flagged, e.g. "PHP 8.1")
 
 ## Content Organization
 
-The tutorial covers 15 core PHP topics in sequence:
+The tutorial covers 21 PHP topics in sequence:
 
 1. Introduction à PHP
 2. Installation et configuration de PHP
@@ -31,6 +32,12 @@ The tutorial covers 15 core PHP topics in sequence:
 13. Connexion à une base de données
 14. Gestion des erreurs et débogage
 15. Bonnes pratiques et sécurité
+16. Dates et heures
+17. Sessions, cookies et authentification
+18. Organisation du code : inclusions, namespaces et autoloading
+19. JSON et introduction aux API web
+20. Expressions régulières (PCRE)
+21. Introduction aux tests automatisés
 
 Each part file links to official PHP documentation and other relevant resources.
 
@@ -75,4 +82,5 @@ When modifying or adding content:
 - Include official PHP documentation links
 - Keep code examples simple and beginner-friendly
 - Ensure examples demonstrate the concept being taught
-- Update `sommaire.md` if adding new sections
+- Update `readme.md` (the table of contents) if adding new sections
+- When adding sections, keep `test.md` and `exercices/readme.md` in sync if relevant
